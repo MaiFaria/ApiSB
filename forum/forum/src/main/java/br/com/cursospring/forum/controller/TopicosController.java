@@ -1,7 +1,6 @@
 package br.com.cursospring.forum.controller;
 
 import  br.com.cursospring.forum.controller.dto.TopicoDto;
-import br.com.cursospring.forum.modelo.Curso;
 import br.com.cursospring.forum.modelo.Topico;
 import br.com.cursospring.forum.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,13 @@ public class TopicosController {
     private TopicoRepository topicoRepository;
 
     @RequestMapping("/topicos")
-    public List<TopicoDto> lista() {
-        List<Topico> topicos = topicoRepository.findAll();
-        return TopicoDto.converter(topicos);
+    public List<TopicoDto> lista(String nomeCurso) {
+        if (nomeCurso == null){
+            List<Topico> topicos = topicoRepository.findAll();
+            return TopicoDto.converter(topicos);
+        } else {
+            List<Topico> topicos = topicoRepository.findByCursoNome(nomeCurso);
+            return TopicoDto.converter(topicos);
+        }
     }
 }
